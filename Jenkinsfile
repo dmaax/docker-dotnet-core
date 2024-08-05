@@ -7,6 +7,13 @@ pipeline {
     }
 
     stages {
+
+        stage('Checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: 'https://github.com/dmaax/docker-dotnet-core.git']]])
+            }
+        }
+
         stage('Build') {
             steps {
                 sh 'dotnet build'
