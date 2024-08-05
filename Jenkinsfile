@@ -16,12 +16,12 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'dotnet build'
+                sh 'dotnet build Hello/'
             }
         }
         stage('Test') {
             steps {
-                sh 'dotnet test'
+                sh 'dotnet test Hello/'
             }
         }
         stage('Docker Build') {
