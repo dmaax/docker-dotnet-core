@@ -10,7 +10,16 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/${branchName}']], userRemoteConfigs: [[url: 'https://github.com/dmaax/docker-dotnet-core.git']]])
+                checkout([
+                $class: 'GitSCM',
+                branches: scm.branches,
+                extensions: scm.extensions,
+                userRemoteConfigs: [[
+                    credentialsId: scm.userRemoteConfigs[0].credentialsId,
+                    name: 'origin', 
+                    refspec: '+refs/heads/*:refs/remotes/origin/*', 
+                    url: scm.userRemoteConfigs[0].url
+                ]],
             }
         }
 
