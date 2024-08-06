@@ -25,7 +25,6 @@ pipeline {
             }
         }
         // Builda a imgem docker
-        def dockerImage
         stage('Docker Build') {
             steps {
                 script {
