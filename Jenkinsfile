@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_CREDENTIALS_ID = 'docker-hub-credentials' // ID das credenciais Docker Hub configuradas no Jenkins
+        DOCKER_CREDENTIALS_ID = 'docker' // ID das credenciais Docker Hub configuradas no Jenkins
         DOCKER_IMAGE = 'dmaax/dotnet-hello'
     }
 
