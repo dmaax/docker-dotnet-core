@@ -28,20 +28,29 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    sh 'docker build -t $DOCKER_IMAGE .'
+                    dockerImage = docker.build("${env.DOCKERHUB_REPO}:latest")
                 }
             }
         }
         stage('Docker Login and Push') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: "$DOCKER_CREDENTIALS_ID", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-                        sh 'docker push $DOCKER_IMAGE'
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials-id') {
+                        dockerImage.push()
                     }
                 }
             }
         }
+        // stage('Docker Login and Push') {
+        //     steps {
+        //         script {
+        //             withCredentials([usernamePassword(credentialsId: "$DOCKER_CREDENTIALS_ID", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+        //                 sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+        //                 sh 'docker push $DOCKER_IMAGE'
+        //             }
+        //         }
+        //     }
+        // }
         // stage('Deploy') {
         //     when {
         //         branch 'main'
