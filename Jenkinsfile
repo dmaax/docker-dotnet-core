@@ -24,6 +24,7 @@ pipeline {
                 sh 'dotnet test Hello/'
             }
         }
+        // Builda a imgem docker
         stage('Docker Build') {
             steps {
                 script {
