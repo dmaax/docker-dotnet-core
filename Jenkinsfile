@@ -32,7 +32,8 @@ pipeline {
                 }
             }
         }
-        stage('Docker Login and Push') {
+        // Realiza o push para o Docker Hub
+        stage('Docker Push') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials-id') {
