@@ -42,16 +42,6 @@ pipeline {
                 }
             }
         }
-        // stage('Docker Login and Push') {
-        //     steps {
-        //         script {
-        //             withCredentials([usernamePassword(credentialsId: "$DOCKER_CREDENTIALS_ID", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-        //                 sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-        //                 sh 'docker push $DOCKER_IMAGE'
-        //             }
-        //         }
-        //     }
-        // }
         // stage('Deploy') {
         //     when {
         //         branch 'main'
