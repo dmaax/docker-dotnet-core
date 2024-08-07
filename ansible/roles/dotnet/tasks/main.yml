@@ -1,0 +1,18 @@
+---
+- name: Ensure containers directory exists
+  ansible.builtin.file:
+    path: /home/ubuntu/containers
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: Unarchive dotnet.tar.gz
+  ansible.builtin.unarchive:
+    src: https://github.com/dmaax/docker-dotnet-core/raw/master/files/dotnet.tar.gz
+    dest: /home/ubuntu/containers
+    remote_src: true
+
+- name: Create/start dotnet container
+  community.docker.docker_compose_v2:
+    project_src: /home/ubuntu/containers/dotnet
