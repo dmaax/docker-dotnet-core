@@ -1,0 +1,17 @@
+---
+- name: IT playbook
+  hosts: all
+  become: true
+
+  pre_tasks:
+  - name: Update package cache
+    ansible.builtin.apt:
+      update_cache: true
+      upgrade: dist
+      cache_valid_time: 3600
+    become: true
+
+  roles:
+    - roles/docker
+    - roles/dotnet
+  
