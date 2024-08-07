@@ -51,6 +51,41 @@ pipeline {
                 }
             }
         }
+
+        stage('Terraform Init') {
+            when {
+                branch 'master'
+                expression { return isMerge() }
+            }
+            steps {
+                script {
+                    sh 'terraform init'
+                }
+            }
+        }
+        stage('Terraform Plan') {
+            when {
+                branch 'master'
+                expression { return isMerge() }
+            }
+            steps {
+                script {
+                    sh 'terraform plan -out=tfplan'
+                }
+            }
+        }
+        stage('Terraform Apply') {
+            when {
+                branch 'master'
+                expression { return isMerge() }
+            }
+            steps {
+                script {
+                    sh 'terraform apply -auto-approve tfplan'
+                }
+            }
+        }
+
         // stage('Deploy') {
         //     when {
         //         branch 'main'
@@ -66,3 +101,6 @@ pipeline {
     }
 }
 
+boolean isMerge() {
+    return currentBuild.getRawBuild().getCauses().any { cause -> cause.toString().contains('Merge') }
+}
