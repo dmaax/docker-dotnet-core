@@ -5,7 +5,7 @@ resource "aws_subnet" "public_subnet" {
   availability_zone       = "us-east-1a"
 
   tags = {
-    Name = "coodesh_public_subnet"
+    Name = "it_public_subnet"
   }
 }
 
@@ -17,6 +17,6 @@ resource "aws_subnet" "private_subnet" {
   availability_zone       = "us-east-1b"
 
   tags = {
-    Name = "coodesh_private_subnet"
+    Name = "it_private_subnet"
   }
 }

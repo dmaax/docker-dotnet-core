@@ -1,4 +1,4 @@
-resource "aws_instance" "coodesh_vm" {
+resource "aws_instance" "it_vm" {
   ami           = var.ami_id
   instance_type = var.instance_type
 
@@ -10,7 +10,7 @@ resource "aws_instance" "coodesh_vm" {
   associate_public_ip_address = true
 
   tags = {
-    Name = "coodesh_vm"
+    Name = "it_vm"
   }
 }
 

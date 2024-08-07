@@ -44,6 +44,6 @@ resource "aws_security_group" "coodesh_sg" {
   }
 
   tags = {
-    Name = "coodesh_sg"
+    Name = "it_sg"
   }
 }
