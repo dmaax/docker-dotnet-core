@@ -19,7 +19,7 @@ pipeline {
                     name: 'origin', 
                     refspec: '+refs/heads/*:refs/remotes/origin/*', 
                     url: scm.userRemoteConfigs[0].url
-                ]],
+                ]]])
             }
         }
 
