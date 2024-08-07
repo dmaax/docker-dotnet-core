@@ -1,39 +1,39 @@
-# Docker : run a sample .NET Core console application
+<p align="center">
+    <h1 align="center">.NET Pipeline</h1>
+</p>
 
-An example app that runs a .NET Core program that prints a hello message.
+<p align="center">
+  <a aria-label="Ansible version" href="https://www.ansible.com/">
+    <img src="https://img.shields.io/badge/v2.15.3-000.svg?logo=Ansible&labelColor=000&style=for-the-badge">
+  </a>
+  <a aria-label="awscli version" href="https://aws.amazon.com/cli/">
+    <img src="https://img.shields.io/badge/2.13.3-000?style=for-the-badge&logo=amazonwebservices&logoColor=white">
+  </a>
+  <a aria-label="Jenkins version" href="https://www.jenkins.io/">
+    <img src="https://img.shields.io/badge/2.452.3-000?style=for-the-badge&logo=jenkins&logoColor=white">
+  </a>
+  <a aria-label="Python version" href="https://www.python.org/">
+    <img alt="" src="https://img.shields.io/badge/v3.9-000.svg?logo=python&style=for-the-badge">
+  </a>
+  <a aria-label="Terraform version" href="https://www.terraform.io/">
+    <img alt="" src="https://img.shields.io/badge/v1.5.4-000.svg?logo=terraform&logoColor=7B42BC&style=for-the-badge">
+  </a>
+</p>
 
-The image will:
-1. install alpine linux and .NET 6 sdk into the container.
-2. copy the project file into the container.
-3. restore the project and publish it inside the container.
-4. run the published console program.
+## Descrição
 
+Esse repositório possui códigos para configurar de forma declarativa uma infraestrutura básica na AWS (EC2), bem como uma pipeline de ci/cd no Jenkins para um projeto .NET. O código final é deployado através da pipeline na forma de um container Docker para um servidor Ubuntu 24.04 LTS configurado através do Ansible e do Terraform.
 
-You can download the built image from Docker Hub:
+## Jenkins
 
-    docker pull gulangurman/docker-dotnet-core:latest
+As instruções da pipeline podem ser vistas [aqui](./Jenkinsfile). De forma resumida é feito o checkout no código, depois o build do programa, teste, build da imagem Docker, em seguida o push da mesma e por fim são acionados o Terraform e o Ansible.
 
-# Build
+## Infra as Code (Terraform e Ansible)
 
-First build the image and tag it with a name.
+### Terraform
 
-    $ docker build -t gulangurman/docker-dotnet-core .       
+Com o uso do Terraform foram feitos códigos que permitem a criação de uma série de recursos na AWS para criar um servidor Ubuntu Server 24.04 LTS automaticamente. Os códigos podem ser vistos [aqui](./terraform/main/).
 
-# Check
+### Ansible
 
-Check that your image is listed among other docker images on your system.    
-
-    $ docker images
-   
-# Run
-
-Now run the image you've just built.
-
-    $ docker run -d --name dotnet-core-container gulangurman/docker-dotnet-core   
-
-# View logs
-
-You can see the "Hello world!" message in the container logs.
-
-    $ docker logs dotnet-core-container   
-   
+Através do Ansible foi criado um playbook que permite a configuração automática de um servidor Ubuntu Server 24.04 LTS, primeiramente é instalado o Docker, depois é realizado o "pull" da imagem Docker criada anteriormente através da pipeline. Em seguida um container novo é criado que roda a mesma imagem. Para visualizar os códigos clique [aqui](./ansible/).
