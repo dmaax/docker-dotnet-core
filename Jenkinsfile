@@ -54,8 +54,10 @@ pipeline {
 
         stage('Terraform Init') {
             when {
-                branch 'master'
-                expression { return isMerge() }
+                allOf {
+                    branch 'master'
+                    not { changeRequest() } // Ignora Pull Requests
+                }
             }
             steps {
                 script {
@@ -65,8 +67,10 @@ pipeline {
         }
         stage('Terraform Plan') {
             when {
-                branch 'master'
-                expression { return isMerge() }
+                allOf {
+                    branch 'master'
+                    not { changeRequest() } // Ignora Pull Requests
+                }
             }
             steps {
                 script {
@@ -76,8 +80,10 @@ pipeline {
         }
         stage('Terraform Apply') {
             when {
-                branch 'master'
-                expression { return isMerge() }
+                allOf {
+                    branch 'master'
+                    not { changeRequest() } // Ignora Pull Requests
+                }
             }
             steps {
                 script {
@@ -99,8 +105,4 @@ pipeline {
         //     }
         // }
     }
-}
-
-boolean isMerge() {
-    return currentBuild.getRawBuild().getCauses().any { cause -> cause.toString().contains('Merge') }
 }
