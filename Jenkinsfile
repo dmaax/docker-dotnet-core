@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS_ID = 'docker' // ID das credenciais Docker Hub configuradas no Jenkins
         DOCKER_IMAGE = 'dmaax/dotnet-hello'
+        ANSIBLE_SSH_KEY = credentials('ssh')
     }
 
     stages {
@@ -98,17 +99,20 @@ pipeline {
             }
         }
 
-        // stage('Deploy') {
-        //     when {
-        //         branch 'main'
-        //     }
-        //     steps {
-        //         sshagent(['deploy-key']) {
-        //             sh '''
-        //             ansible-playbook -i ansible/inventory ansible/deploy.yml
-        //             '''
-        //         }
-        //     }
-        // }
+        stage('Ansible Setup') {
+            when {
+                allOf {
+                    branch 'master'
+                    not { changeRequest() } // Ignora Pull Requests
+                }
+            }
+            steps {
+                script {
+                    sh '''
+                    ansible-playbook -i ansible/inventory/inventory.ini --private-key $ANSIBLE_SSH_KEY ansible/playbooks/it.yml
+                    '''
+                }
+            }
+        }
     }
 }
