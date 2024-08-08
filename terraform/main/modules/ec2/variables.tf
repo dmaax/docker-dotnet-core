@@ -21,7 +21,7 @@ variable "key_name" {
 variable "public_key" {
   description = "The public key to be used for the AWS Key Pair."
   type        = string
-  default     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDFFntzHkZ2YJs7q9b7H5KRR3gG1j7ZJzsErzOwKXy/Q dmaax@teste"
+  default     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII01u9/XeNW3qOLLmo/AM46laLPXz0ALUpcsUVmFVIbH dmaax@teste"
 }
 
 variable "security_group_id" {
