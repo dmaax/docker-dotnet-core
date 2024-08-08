@@ -108,9 +108,11 @@ pipeline {
             }
             steps {
                 script {
-                    sh '''
-                    /root/.local/pipx/venvs/ansible/bin/ansible-playbook -i ansible/inventory/inventory.ini --private-key $ANSIBLE_SSH_KEY ansible/playbooks/it.yml
+                    dir(ansible) {
+                        sh '''
+                    /root/.local/pipx/venvs/ansible/bin/ansible-playbook -i inventory/inventory.ini --private-key $ANSIBLE_SSH_KEY playbooks/it.yml
                     '''
+                    }
                 }
             }
         }
