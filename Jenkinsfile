@@ -109,9 +109,14 @@ pipeline {
             steps {
                 script {
                     dir('ansible') {
+                        // Armazena a chave privada em um arquivo temporário e define permissões seguras
+                        writeFile file: 'private_key.pem', text: ANSIBLE_SSH_KEY
+                        sh 'chmod 600 private_key.pem'
+                        
+                        // Executa o Ansible Playbook usando a chave privada armazenada temporariamente
                         sh '''
-                    /root/.local/pipx/venvs/ansible/bin/ansible-playbook -i inventory/inventory.ini --private-key $ANSIBLE_SSH_KEY playbooks/it.yml
-                    '''
+                        /root/.local/pipx/venvs/ansible/bin/ansible-playbook -i inventory/inventory.ini --private-key=private_key.pem playbooks/playbook.yml
+                        '''
                     }
                 }
             }
