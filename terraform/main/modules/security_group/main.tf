@@ -1,5 +1,5 @@
-resource "aws_security_group" "coodesh_sg" {
-  name        = "coodesh-security-group"
+resource "aws_security_group" "it_sg" {
+  name        = "it-security-group"
   description = "Security group for webserver allowing HTTP traffic"
   vpc_id      = var.vpc_id
 
