@@ -61,7 +61,9 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'cd terraform/main; terraform init'
+                    dir('terraform/main') {
+                        sh 'terraform init'
+                    }
                 }
             }
         }
@@ -74,7 +76,9 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'terraform plan -out=tfplan'
+                    dir('terraform/main') {
+                        sh 'terraform plan -out=tfplan'
+                    }
                 }
             }
         }
@@ -87,7 +91,9 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'terraform apply -auto-approve tfplan'
+                    dir('terraform/main') {
+                        sh 'terraform apply -auto-approve tfplan'
+                    }
                 }
             }
         }
