@@ -108,7 +108,7 @@ pipeline {
             }
             steps {
                 script {
-                    dir(ansible) {
+                    dir('ansible') {
                         sh '''
                     /root/.local/pipx/venvs/ansible/bin/ansible-playbook -i inventory/inventory.ini --private-key $ANSIBLE_SSH_KEY playbooks/it.yml
                     '''
