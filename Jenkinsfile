@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS_ID = 'docker' // ID das credenciais Docker Hub configuradas no Jenkins
         DOCKER_IMAGE = 'dmaax/dotnet-hello'
+        GITHUB_TOKEN = credentials('githubpat')
     }
 
     stages {
