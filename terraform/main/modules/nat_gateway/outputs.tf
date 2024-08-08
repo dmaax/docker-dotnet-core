@@ -3,5 +3,5 @@ output "nat_gateway_id" {
 }
 
 output "nat_gateway_eip" {
-  value = aws_eip.it_nat_gateway.public_ip
+  value = aws_eip.nat_gateway_ip.public_ip
 }
