@@ -99,6 +99,15 @@ pipeline {
             }
         }
 
+        stage('Wait for Host') {
+            steps {
+                script {
+                    echo 'Waiting for the host to become reachable...'
+                    sleep 60 // Aguarda 60 segundos para o host ficar online
+                }
+            }
+        }
+
         stage('Ansible Setup') {
             when {
                 allOf {
