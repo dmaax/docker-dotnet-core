@@ -55,34 +55,46 @@ pipeline {
 
         stage('Terraform Init') {
             when {
-                branch 'master'
-                expression { return isMerge() }
+                allOf {
+                    branch 'master'
+                    not { changeRequest() } // Ignora Pull Requests
+                }
             }
             steps {
                 script {
-                    sh 'terraform init'
+                    dir('terraform/main') {
+                        sh 'terraform init'
+                    }
                 }
             }
         }
         stage('Terraform Plan') {
             when {
-                branch 'master'
-                expression { return isMerge() }
+                allOf {
+                    branch 'master'
+                    not { changeRequest() } // Ignora Pull Requests
+                }
             }
             steps {
                 script {
-                    sh 'terraform plan -out=tfplan'
+                    dir('terraform/main') {
+                        sh 'terraform plan -out=tfplan'
+                    }
                 }
             }
         }
         stage('Terraform Apply') {
             when {
-                branch 'master'
-                expression { return isMerge() }
+                allOf {
+                    branch 'master'
+                    not { changeRequest() } // Ignora Pull Requests
+                }
             }
             steps {
                 script {
-                    sh 'terraform apply -auto-approve tfplan'
+                    dir('terraform/main') {
+                        sh 'terraform apply -auto-approve tfplan'
+                    }
                 }
             }
         }
@@ -100,8 +112,4 @@ pipeline {
         //     }
         // }
     }
-}
-
-boolean isMerge() {
-    return currentBuild.getRawBuild().getCauses().any { cause -> cause.toString().contains('Merge') }
 }
