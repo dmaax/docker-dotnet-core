@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS_ID = 'docker' // ID das credenciais Docker Hub configuradas no Jenkins
         DOCKER_IMAGE = 'dmaax/dotnet-hello'
+        ANSIBLE_SSH_KEY = credentials('ssh')
     }
 
     stages {
@@ -98,17 +99,36 @@ pipeline {
             }
         }
 
-        // stage('Deploy') {
-        //     when {
-        //         branch 'main'
-        //     }
-        //     steps {
-        //         sshagent(['deploy-key']) {
-        //             sh '''
-        //             ansible-playbook -i ansible/inventory ansible/deploy.yml
-        //             '''
-        //         }
-        //     }
-        // }
+        stage('Wait for Host') {
+            steps {
+                script {
+                    echo 'Waiting for the host to become reachable...'
+                    sleep 60 // Aguarda 60 segundos para o host ficar online
+                }
+            }
+        }
+
+        stage('Ansible Setup') {
+            when {
+                allOf {
+                    branch 'master'
+                    not { changeRequest() } // Ignora Pull Requests
+                }
+            }
+            steps {
+                script {
+                    dir('ansible') {
+                        // Armazena a chave privada em um arquivo temporário e define permissões seguras
+                        writeFile file: '/root/.ssh/id_ed25519', text: ANSIBLE_SSH_KEY
+                        sh 'chmod 600 /root/.ssh/id_ed25519'
+                        
+                        // Executa o Ansible Playbook usando a chave privada armazenada temporariamente
+                        sh '''
+                        /root/.local/pipx/venvs/ansible/bin/ansible-playbook -i inventory/inventory.ini --private-key=/root/.ssh/id_ed25519 playbooks/it.yml
+                        '''
+                    }
+                }
+            }
+        }
     }
 }
