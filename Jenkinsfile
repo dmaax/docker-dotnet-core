@@ -124,7 +124,7 @@ pipeline {
                         
                         // Executa o Ansible Playbook usando a chave privada armazenada temporariamente
                         sh '''
-                        /root/.local/pipx/venvs/ansible/bin/ansible-playbook -i inventory/inventory.ini --private-key=private_key.pem playbooks/it.yml
+                        /root/.local/pipx/venvs/ansible/bin/ansible-playbook -i inventory/inventory.ini --private-key=/root/.ssh/id_rsa playbooks/it.yml
                         '''
                     }
                 }
