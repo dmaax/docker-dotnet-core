@@ -16,3 +16,8 @@
 - name: Create/start dotnet container
   community.docker.docker_compose_v2:
     project_src: /home/ubuntu/containers/dotnet
+  register: output
+
+- name: Show output
+  ansible.builtin.debug:
+    var: output
