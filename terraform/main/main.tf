@@ -50,7 +50,7 @@ ${module.ec2.public_ip}
 
 [webserver:vars]
 ansible_user=ubuntu
-ansible_ssh_private_key_file=~/.ssh/id_rsa
+ansible_ssh_private_key_file=~/.ssh/id_ed25519
 default_user='ubuntu'
 EOF
   filename = "${path.root}/../../ansible/inventory/inventory.ini"
